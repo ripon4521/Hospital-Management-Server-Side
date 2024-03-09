@@ -28,6 +28,7 @@ async function run() {
     await client.connect();
 
     const appoinmentCollection = client.db("medilabDB").collection("appoinment");
+    const usersCollection = client.db("medilabDB").collection("users");
     
 
 
@@ -44,6 +45,13 @@ async function run() {
     app.get('/appoinments' , async(req , res)=>{
         try {
             const result = await appoinmentCollection.find().toArray();
+            res.send(result)
+        } catch (error) {
+            console.log(error);}})
+
+    app.get('/users' , async(req , res)=>{
+        try {
+            const result = await usersCollection.find().toArray();
             res.send(result)
         } catch (error) {
             console.log(error);}})
@@ -101,6 +109,16 @@ app.post('/appoinment', async(req , res)=>{
     const appoinment = req.body;
     // console.log(appoinment);
     const result = await appoinmentCollection.insertOne(appoinment)
+    res.send(result)
+   } catch (error) {
+    console.log(error);
+   }
+})
+app.post('/users', async(req , res)=>{
+   try {
+    const appoinment = req.body;
+    // console.log(appoinment);
+    const result = await usersCollection.insertOne(appoinment)
     res.send(result)
    } catch (error) {
     console.log(error);
@@ -204,7 +222,7 @@ run().catch(console.dir);
 
 app.get('/', (req, res) => {
     try {
-        res.send('Welcome To Medilab Hospital Serve......')
+        res.send('Welcome To Medilab Hospital Server......')
     } catch (error) {
         console.log(error);
     }
